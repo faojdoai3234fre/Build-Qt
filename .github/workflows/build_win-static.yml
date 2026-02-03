@@ -50,10 +50,10 @@ jobs:
       - name: Rename OpenSSL libraries
         shell: cmd
         run: |
-          ren "${{ env.openssl_location }}\lib\VC\x64\MT\libcrypto.lib" "${{ env.openssl_location }}\lib\VC\x64\MT\libcrypto64MT.lib"
-          ren "${{ env.openssl_location }}\lib\VC\x64\MTd\libcrypto.lib" "${{ env.openssl_location }}\lib\VC\x64\MTd\libcrypto64MTd.lib"
-          ren "${{ env.openssl_location }}\lib\VC\x64\MT\libssl.lib" "${{ env.openssl_location }}\lib\VC\x64\MT\libssl64MT.lib"
-          ren "${{ env.openssl_location }}\lib\VC\x64\MTd\libssl.lib" "${{ env.openssl_location }}\lib\VC\x64\MTd\libssl64MTd.lib"
+          ren "${{ env.openssl_location }}\lib\VC\x64\MT\libcrypto.lib" libcrypto64MT.lib
+          ren "${{ env.openssl_location }}\lib\VC\x64\MTd\libcrypto.lib" libcrypto64MTd.lib
+          ren "${{ env.openssl_location }}\lib\VC\x64\MT\libssl.lib" libssl64MT.lib
+          ren "${{ env.openssl_location }}\lib\VC\x64\MTd\libssl.lib" libssl64MTd.lib
           
       - uses: ilammy/msvc-dev-cmd@v1
         with:
