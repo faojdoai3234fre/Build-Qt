@@ -133,11 +133,11 @@ jobs:
         env:
           PAT: ${{ secrets.PAT }}
         run: |
-          sudo git config http.postBuffer 500000000
-          sudo git config http.lowSpeedTime 600
           sudo git config --global user.name "${{ github.actor }}"
           sudo git config --global user.email "${{ github.actor }}@example.com"
           sudo git init
+          sudo git config http.postBuffer 500000000
+          sudo git config http.lowSpeedTime 600
           sudo git add Qt-${{ env.Qt_patch_version }}
           sudo git commit -m "Initial commit"
           sudo git branch -M main
