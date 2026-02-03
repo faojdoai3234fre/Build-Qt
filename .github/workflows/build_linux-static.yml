@@ -155,7 +155,7 @@ jobs:
         working-directory: /usr/local
         shell: bash
         env:
-          PAT: ${{ secrets.SuperUser }}
+          PAT: ${{ secrets.PAT }}
         run: |
           sudo git config --global user.name "${{ github.actor }}"
           sudo git config --global user.email "${{ github.actor }}@example.com"
