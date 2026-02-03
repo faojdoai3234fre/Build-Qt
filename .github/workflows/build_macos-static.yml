@@ -32,7 +32,7 @@ jobs:
           ./configure \
           -opensource \
           -confirm-license \
-          -debug-and-release \
+          -release \
           -static \
           -platform macx-clang \
           -nomake examples \
