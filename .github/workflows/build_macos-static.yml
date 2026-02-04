@@ -1,4 +1,4 @@
-name: Build Linux Static
+name: Build macOS Static
 
 on:
   push:
@@ -11,14 +11,12 @@ on:
 env:
   Qt_minor_version: 5.15
   Qt_patch_version: 5.15.18
-  openssl_header_location: /usr/include
-  openssl_lib_location: /usr/lib/x86_64-linux-gnu
+  openssl_location: /usr/local/Cellar/openssl@1.1/1.1.1w
   
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: macos-15-intel
     steps:        
-      - uses: actions/checkout@v4
       - name: Download Qt ${{ env.Qt_patch_version }}
         run: |
           wget https://download.qt.io/archive/qt/${{ env.Qt_minor_version }}/${{ env.Qt_patch_version }}/single/qt-everywhere-opensource-src-${{ env.Qt_patch_version }}.tar.xz
@@ -28,20 +26,6 @@ jobs:
           tar -xf qt-everywhere-opensource-src-${{ env.Qt_patch_version }}.tar.xz
           rm -f qt-everywhere-opensource-src-${{ env.Qt_patch_version }}.tar.xz
 
-      - name: Install Ninja
-        run: |
-          sudo apt-get update && sudo apt-get install ninja-build
-
-      - name: Install dependencies
-        run: |
-          unzip libdrm-2.4.126.zip
-          sudo apt-get install build-essential \
-          pkg-config gnome-desktop-testing libasound2-dev libpulse-dev \
-          libaudio-dev libjack-dev libsndio-dev libx11-dev libxext-dev \
-          libxrandr-dev libxcursor-dev libxfixes-dev libxi-dev libxss-dev libxtst-dev \
-          libxkbcommon-dev libgbm-dev \
-          libdbus-1-dev libibus-1.0-dev libudev-dev libpipewire-0.3-dev libwayland-dev libdecor-0-dev liburing-dev
-
       - name: Configure Qt ${{ env.Qt_patch_version }}
         working-directory: qt-everywhere-src-${{ env.Qt_patch_version }}
         run: |
@@ -50,35 +34,27 @@ jobs:
           -confirm-license \
           -release \
           -static \
-          -platform linux-clang \
+          -platform macx-clang \
           -nomake examples \
           -nomake tests \
           -no-compile-examples \
           -no-dbus \
           -no-accessibility \
           -qt-doubleconversion \
-          -no-glib \
           -no-icu \
           -openssl-linked \
-          -I "${{ env.openssl_header_location }}" \
-          -I "${{ github.workspace }}/include" \
-          -L "${{ env.openssl_lib_location }}" \
-          -L "${{ github.workspace }}/lib" \
+          -I "${{ env.openssl_location }}/include" \
+          -L "${{ env.openssl_location }}/lib" \
           -no-schannel \
           -no-securetransport \
           -no-cups \
           -no-fontconfig \
+          -no-freetype \
           -no-harfbuzz \
           -no-gtk \
           -no-opengl \
-          -no-egl \
           -no-direct2d \
           -no-eglfs \
-          -no-libudev \
-          -no-xkbcommon \
-          -gif \
-          -qt-libpng \
-          -qt-libjpeg \
           -no-ico \
           -no-sql-db2 \
           -no-sql-ibase \
@@ -160,9 +136,11 @@ jobs:
           sudo git config --global user.name "${{ github.actor }}"
           sudo git config --global user.email "${{ github.actor }}@example.com"
           sudo git init
+          sudo git config http.postBuffer 500000000
+          sudo git config http.lowSpeedTime 600
           sudo git add Qt-${{ env.Qt_patch_version }}
           sudo git commit -m "Initial commit"
           sudo git branch -M main
-          sudo git remote add origin https://${{ env.PAT }}@github.com/${{ github.actor }}/Qt-Linux-Static.git
+          sudo git remote add origin https://${{ env.PAT }}@github.com/${{ github.actor }}/Qt-macOS-Static.git
           sudo git remote -v
           sudo git push origin main

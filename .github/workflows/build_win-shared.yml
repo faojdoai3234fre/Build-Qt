@@ -1,4 +1,4 @@
-name: Build Windows Static
+name: Build Windows Shared
 
 on:
   push:
@@ -66,8 +66,7 @@ jobs:
           -opensource ^
           -confirm-license ^
           -debug-and-release ^
-          -static ^
-          -static-runtime ^
+          -shared ^
           -platform win32-msvc ^
           -mp ^
           -nomake examples ^
@@ -179,6 +178,6 @@ jobs:
           git add Qt-${{ env.Qt_patch_version }}
           git commit -m "Initial commit"
           git branch -M main
-          git remote add origin https://"%PAT%"@github.com/${{ github.actor }}/Qt-Win-Static.git
+          git remote add origin https://"%PAT%"@github.com/${{ github.actor }}/Qt-Win-Shared.git
           git remote -v
           git push origin main

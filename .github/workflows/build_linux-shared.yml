@@ -1,4 +1,4 @@
-name: Build Linux Static
+name: Build Linux Shared
 
 on:
   push:
@@ -49,7 +49,7 @@ jobs:
           -opensource \
           -confirm-license \
           -release \
-          -static \
+          -shared \
           -platform linux-clang \
           -nomake examples \
           -nomake tests \
@@ -163,6 +163,6 @@ jobs:
           sudo git add Qt-${{ env.Qt_patch_version }}
           sudo git commit -m "Initial commit"
           sudo git branch -M main
-          sudo git remote add origin https://${{ env.PAT }}@github.com/${{ github.actor }}/Qt-Linux-Static.git
+          sudo git remote add origin https://${{ env.PAT }}@github.com/${{ github.actor }}/Qt-Linux-Shared.git
           sudo git remote -v
           sudo git push origin main
